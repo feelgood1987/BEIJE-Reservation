@@ -1,4 +1,5 @@
 export class ReservationRequest {
+  date: Date;
   //it should be in HH:mm format
   startTime: string;
   userId: string;
