@@ -35,7 +35,6 @@ export class TimeValidator implements ValidatorConstraintInterface {
     } catch (e) {
       return false;
     }
-    return true;
   }
 
   defaultMessage(args: ValidationArguments) {
