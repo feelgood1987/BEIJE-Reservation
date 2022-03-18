@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "11145ad0-6ca6-4744-98ec-0646d75f9efd",
+		"name": "BEIJE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Requests",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/reservations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Reservations",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\":\"37f3e0b0-8893-487a-ae1d-674af4286c06\",\r\n    \"startTime\":\"16:45\",\r\n    \"date\":\"2022-03-18T20:00:00.00Z\",\r\n    \"receiveEmail\":true,\r\n    \"receiveSmsNotification\":true,\r\n    \"receivePushNotification\":true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/reservations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Request",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/reservations/cancel-request/fd3667e1-7ba1-4748-94ce-6c76953ccce0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservations",
+						"cancel-request",
+						"fd3667e1-7ba1-4748-94ce-6c76953ccce0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Accept Request",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/reservations/accept-request/46ffbbe7-a543-49bc-a048-49179b653e1b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservations",
+						"accept-request",
+						"46ffbbe7-a543-49bc-a048-49179b653e1b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reject Request",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/reservations/reject-request/6e117f39-4b43-479f-b0ba-e35c096f695d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservations",
+						"reject-request",
+						"6e117f39-4b43-479f-b0ba-e35c096f695d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Request",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"reserveDate\":\"\",\r\n    \"startTime\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/reservations/update-request",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reservations",
+						"update-request"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
