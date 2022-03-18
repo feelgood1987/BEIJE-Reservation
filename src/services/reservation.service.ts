@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { v4 as uuid } from 'uuid';
 import { Reservation, User } from 'src/entities';
@@ -10,12 +10,16 @@ import {
   ReservationUpdate,
 } from 'src/models';
 import { Op } from 'sequelize';
+import { NotificationServices } from './notification-service';
 
 @Injectable()
 export class ReservationService {
+  readonly ADMIN_EMAIL: string = 'admin@gmail.com';
   constructor(
     @InjectModel(Reservation) private reservationModel: typeof Reservation,
     @InjectModel(User) private userModel: typeof User,
+    @Inject(NotificationServices)
+    private notificationService: NotificationServices,
   ) {}
 
   async createReservationRequest(
@@ -60,6 +64,12 @@ export class ReservationService {
         receiveSmsNotification: requestBody.receiveSmsNotification,
         status: ReservationStatus.QUEUED,
       });
+
+      // Send inform email to admin
+      this.notificationService.sendEmail(
+        this.ADMIN_EMAIL,
+        'User has been create a new reservation:' + reservation.id,
+      );
 
       return new CreateReservationResponse({
         status: 'success',
@@ -121,6 +131,10 @@ export class ReservationService {
     );
     if (result[0] > 0) {
       // Send inform email to admin
+      this.notificationService.sendEmail(
+        this.ADMIN_EMAIL,
+        'User has been cancel his reservation:' + reservation.id,
+      );
       return this.getSingleReservationResponse(reservation);
     } else {
       throw new HttpException('Cancel failed', HttpStatus.BAD_REQUEST);
@@ -158,8 +172,27 @@ export class ReservationService {
       },
     );
     if (result[0] > 0) {
+      const reservationResponse = await this.getSingleReservationResponse(
+        reservation,
+      );
       // Send inform email to user
-      return this.getSingleReservationResponse(reservation);
+      this.notificationService.sendEmail(
+        reservationResponse.email,
+        'Your reservation:' + reservation.id + ' has been ' + acceptRequest
+          ? 'Accepted.'
+          : 'Rejected.',
+      );
+
+      // if reservaion accepted then add to notification scheduling service
+      if (acceptRequest) {
+        // Add to send notification queue
+        this.notificationService.createNotificationJob(
+          reservation,
+          reservationResponse.email,
+          reservationResponse.phone,
+        );
+      }
+      return reservationResponse;
     } else {
       throw new HttpException('Operation failed', HttpStatus.BAD_REQUEST);
     }
@@ -223,6 +256,10 @@ export class ReservationService {
     );
     if (result[0] > 0) {
       // Send inform email to admin
+      this.notificationService.sendEmail(
+        this.ADMIN_EMAIL,
+        'User has been updated his reservation:' + reservation.id,
+      );
       return new CreateReservationResponse({
         status: 'success',
         record: await this.getSingleReservationResponse(reservation),
@@ -246,7 +283,7 @@ export class ReservationService {
       phone: user.phone,
       status: reservation.status,
       pushNotificationKey: user.pushNotificationKey,
-      date: reservation.startDate.toISOString(),
+      date: new Date(reservation.startDate).toISOString(),
       endTime: this.getEndTime(reservation.startTime),
       createdTime: reservation.createdAt,
     });

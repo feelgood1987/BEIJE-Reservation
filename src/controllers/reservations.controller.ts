@@ -4,6 +4,7 @@ import {
   ReservationRequest,
   ReservationResponse,
   ReservationUpdate,
+  ValidationPipe,
 } from 'src/models';
 import { ReservationService } from 'src/services/reservation.service';
 
@@ -13,7 +14,7 @@ export class ReservationsController {
 
   @Post()
   async createReservationRequest(
-    @Body() requestBody: ReservationRequest,
+    @Body(new ValidationPipe()) requestBody: ReservationRequest,
   ): Promise<CreateReservationResponse> {
     return this.reservationService.createReservationRequest(requestBody);
   }
@@ -37,7 +38,7 @@ export class ReservationsController {
 
   @Put('update-request')
   async updateRequest(
-    @Body() requestBody: ReservationUpdate,
+    @Body(new ValidationPipe()) requestBody: ReservationUpdate,
   ): Promise<CreateReservationResponse> {
     return this.reservationService.updateReservationRequest(requestBody);
   }
