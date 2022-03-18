@@ -1,11 +1,35 @@
+import {
+  IsBoolean,
+  IsDateString,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+} from 'class-validator';
+import { IsReservationTime } from './validations/time-validator-pipe';
+
 export class ReservationRequest {
-  //it should be in HH:mm format
+  @IsDateString()
+  @IsNotEmpty()
+  date: Date;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsReservationTime()
   startTime: string;
+
+  @IsUUID('all')
+  @IsNotEmpty()
   userId: string;
-  //If true, 10 minute before call an email should be sent to the user
+
+  @IsBoolean()
+  @IsNotEmpty()
   receiveEmail: boolean;
-  // If true, 5 minute before call an SMS should be sent to the user's phone
+
+  @IsBoolean()
+  @IsNotEmpty()
   receiveSmsNotification: boolean;
-  //If true, one minute before call a push notification should be sent to the user
+
+  @IsBoolean()
+  @IsNotEmpty()
   receivePushNotification: boolean;
 }
