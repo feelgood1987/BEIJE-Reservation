@@ -5,8 +5,8 @@ import {
   ReservationResponse,
   ReservationUpdate,
   ValidationPipe,
-} from 'src/models';
-import { ReservationService } from 'src/services/reservation.service';
+} from '../models';
+import { ReservationService } from '../services/reservation.service';
 
 @Controller('reservations')
 export class ReservationsController {
