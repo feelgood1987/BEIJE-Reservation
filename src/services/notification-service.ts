@@ -1,14 +1,16 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
 import { Reservation } from 'src/entities';
-import { ReservationStatus } from 'src/models';
 
 @Injectable()
 export class NotificationServices {
-  constructor(
-    @Inject(SchedulerRegistry) private schedulerRegistry: SchedulerRegistry,
-  ) {}
+  private _schedulerRegistry: SchedulerRegistry;
+
+  setSchedulerRegistery(schedulerRegistry: SchedulerRegistry) {
+    this._schedulerRegistry = schedulerRegistry;
+  }
+
   async sendEmail(receiver: string, content: string) {
     console.log('Send Email to ' + receiver + ', content:' + content);
   }
@@ -42,7 +44,7 @@ export class NotificationServices {
             'Your reservation call will be start in 10 minutes',
           );
         });
-        this.schedulerRegistry.addCronJob(
+        this._schedulerRegistry.addCronJob(
           'EmailSenderJob_' + reservation.id,
           job,
         );
@@ -63,14 +65,14 @@ export class NotificationServices {
             'Your reservation call will be start in 5 minutes',
           );
         });
-        this.schedulerRegistry.addCronJob(
+        this._schedulerRegistry.addCronJob(
           'EmailSenderJob_' + reservation.id,
           job,
         );
         job.start();
       }
-       // Check Push notification scheduling status
-       if (reservation.receivePushNotification) {
+      // Check Push notification scheduling status
+      if (reservation.receivePushNotification) {
         const emailSendDate = new Date(
           reservation.startDate.getFullYear(),
           reservation.startDate.getMonth(),
@@ -84,7 +86,7 @@ export class NotificationServices {
             'Your reservation call will be start in 1 minutes',
           );
         });
-        this.schedulerRegistry.addCronJob(
+        this._schedulerRegistry.addCronJob(
           'EmailSenderJob_' + reservation.id,
           job,
         );

@@ -1,5 +1,5 @@
 import { Column, Model, PrimaryKey, Table } from 'sequelize-typescript';
-import { ReservationStatus } from 'src/models';
+import { ReservationStatus } from '../models';
 
 @Table
 export class Reservation extends Model<Reservation> {

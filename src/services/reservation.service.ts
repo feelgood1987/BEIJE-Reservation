@@ -1,16 +1,17 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { v4 as uuid } from 'uuid';
-import { Reservation, User } from 'src/entities';
+import { Reservation, User } from '../entities';
 import {
   CreateReservationResponse,
   ReservationRequest,
   ReservationResponse,
   ReservationStatus,
   ReservationUpdate,
-} from 'src/models';
+} from '../models';
 import { Op } from 'sequelize';
 import { NotificationServices } from './notification-service';
+import { SchedulerRegistry } from '@nestjs/schedule';
 
 @Injectable()
 export class ReservationService {
@@ -20,7 +21,10 @@ export class ReservationService {
     @InjectModel(User) private userModel: typeof User,
     @Inject(NotificationServices)
     private notificationService: NotificationServices,
-  ) {}
+    @Inject(SchedulerRegistry) private schedulerRegistry: SchedulerRegistry,
+  ) {
+    this.notificationService.setSchedulerRegistery(this.schedulerRegistry);
+  }
 
   async createReservationRequest(
     requestBody: ReservationRequest,
