@@ -111,7 +111,7 @@ describe('ReservationsController', () => {
     });
   });
 
-  xdescribe('updateReservationRequest', () => {
+  describe('updateReservationRequest', () => {
     it('should update the reservatoin.', async () => {
       const reservationUpdate: ReservationUpdate = {
         id: requestId,
