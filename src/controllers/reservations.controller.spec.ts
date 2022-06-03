@@ -88,7 +88,7 @@ describe('ReservationsController', () => {
     });
   });
 
-  xdescribe('createReservationRequest', () => {
+  describe('createReservationRequest', () => {
     it('should call and retrieve the result for the reservatoin request', async () => {
       const result = await controller.createReservationRequest(requestBody);
       jest
