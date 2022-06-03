@@ -77,7 +77,7 @@ describe('ReservationsController', () => {
     });
   });
 
-  xdescribe('getAllReservations', () => {
+  describe('getAllReservations', () => {
     it('should retrieve all reservatoin requests', async () => {
       const result = await controller.getReservations();
       jest
