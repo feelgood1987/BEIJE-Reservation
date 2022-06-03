@@ -66,7 +66,7 @@ describe('ReservationsController', () => {
     expect(controller).toBeDefined();
   });
 
-  xdescribe('getReservationRequest', () => {
+  describe('getReservationRequest', () => {
     it('should call and get value for the reservation', async () => {
       const result = await controller.getSingleReservationResponse(requestId);
       jest
