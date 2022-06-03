@@ -10,7 +10,7 @@ import {
 import { NotificationServices, ReservationService } from '../services';
 import { ReservationsController } from './reservations.controller';
 
-xdescribe('ReservationsController', () => {
+describe('ReservationsController', () => {
   let controller: ReservationsController;
   let service: ReservationService;
   const sequelize = new Sequelize('Reservation', 'postgres', '1987', {
